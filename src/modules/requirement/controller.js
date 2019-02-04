@@ -15,7 +15,19 @@ function createRequirement(req, res){
 }
 
 function getRequirements(req, res) {
+
   var query ={ };
+
+  var state = req.params.state;
+  var nostate = req.params.nostate;
+
+  if (state) {
+    query = { state: state };
+  } else if (nostate) {
+    query = { state : { $ne: nostate } }
+  }
+
+  
   var Requirement = mongoose.model('Requirement');
   Requirement.countDocuments(function (err, count) {
     if(err) {
